@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .link-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .link {
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background-color: #42586e;
+            border-radius: 5px;
+            width: 250px;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .link:hover {
+            background-color: #6b8e9e;
+            transform: scale(1.05);
+        }
+        .link:active {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Attendance Portal</h1>
+        <div class="link-container">
+            <a href="studentRegistration.html" class="link">Student Registration</a>
+            <a href="staffRegistration.html" class="link">Staff Registration</a>
+            <a href="studentInformationDb.html" class="link">Students Information</a>
+            <a href="staffInformation.html" class="link">Staff Information</a>
+        </div>
+    </div>
+</body>
+</html>

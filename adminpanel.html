@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Names</title>
+</head>
+<body>
+    <div class="to-do-list">
+        <h2>Add</h2>
+        <input id="taskInput" type="text"/>
+        <button id="addButton">Add</button>
+        <ol id="taskContainer"></ol>
+    </div>
+    <script>
+        function ToDoList() {
+    const taskList = [];
+    let newTask = '';
+
+    const taskInput = document.getElementById("taskInput");
+    const taskContainer = document.getElementById("taskContainer");
+
+    function handleInputChange(event) {
+        newTask = event.target.value;
+    }
+
+    function addTask() {
+        if (newTask !== "") {
+            taskList.push(newTask);
+            newTask = "";
+            taskInput.value = ""; 
+            renderTasks(); 
+        }
+    }
+
+    function deleteTask(index) {
+        taskList.splice(index, 1);
+        renderTasks();
+    }
+
+    function moveTaskUp(index) {
+        if (index > 0) {
+            [taskList[index], taskList[index - 1]] = [taskList[index - 1], taskList[index]];
+            renderTasks();
+        }
+    }
+
+    // Function to move a task down
+    function moveTaskDown(index) {
+        if (index < taskList.length - 1) {
+            [taskList[index], taskList[index + 1]] = [taskList[index + 1], taskList[index]];
+            renderTasks();
+        }
+    }
+
+    // Function to render the task list
+    function renderTasks() {
+        taskContainer.innerHTML = ""; // Clear the task list
+        taskList.forEach((task, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <span>${task}</span>
+                <button onclick="deleteTask(${index})">Delete</button>
+                <button onclick="moveTaskUp(${index})">Up</button>
+                <button onclick="moveTaskDown(${index})">Down</button>
+            `;
+            taskContainer.appendChild(li);
+        });
+    }
+
+    // Set up event listeners
+    taskInput.addEventListener("input", handleInputChange);
+    document.getElementById("addButton").addEventListener("click", addTask);
+
+    // Initial render
+    renderTasks();
+}
+
+// Initialize the to-do list when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+    ToDoList();
+});
+    </script>
+</body>
+</html>

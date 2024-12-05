@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: linear-gradient(135deg, #4caf50, #81c784);
+    }
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    table th {
+      background-color: #f4f4f4;
+    }
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 5px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Staff Registration</h1>
+  <form id="registrationForm">
+    <label>First Name:</label>
+    <input type="text" id="firstName" required>
+    <label>Last Name:</label>
+    <input type="text" id="lastName" required>
+    <label>Subject:</label>
+    <input type="text" id="subject" required>
+    <label>Username:</label>
+    <input type="text" id="username" required>
+    <label>Password:</label>
+    <input type="password" id="password" required>
+    <label>Ph No:</label>
+    <input type="text" id="ph" required>
+    <label>Email:</label>
+    <input type="email" id="email" required>
+    <label>Country:</label>
+    <input type="text" id="country" required>
+    <label>State:</label>
+    <input type="text" id="state" required>
+    <label>City:</label>
+    <input type="text" id="city" required>
+    <button type="button" onclick="registerStaff()">Register</button>
+    <button type="button" onclick="showStaffDetails()">Staff Details</button>
+    
+  </form>
+  <div id="staffDetailsSection" class="hidden">
+    <h2>Registered Staff</h2>
+    <table id="staffTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Subject</th>
+          <th>Username</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Location</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button type="button" onclick="goBack()">Back to Registration</button>
+  </div>
+  <script>
+    const registerStaff = async () => {
+      const staff = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        subject: document.getElementById('subject').value,
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+        ph: document.getElementById('ph').value,
+        email: document.getElementById('email').value,
+        country: document.getElementById('country').value,
+        state: document.getElementById('state').value,
+        city: document.getElementById('city').value,
+      };
+
+      try {
+        const response = await fetch('http://localhost:8766/api/staffs/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(staff),
+        });
+
+        if (response.ok) {
+          alert('Staff Registered Successfully!');
+          document.getElementById('registrationForm').reset();
+        } else {
+          const error = await response.json();
+          alert('Error registering staff: ' + error.message);
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    };
+    const showStaffDetails = async () => {
+      try {
+        const response = await fetch('http://localhost:8766/api/staffs');//staffdb staffdatabase
+        if (!response.ok) throw new Error('Failed to fetch staff details');
+
+        const staffs = await response.json();
+        const staffTableBody = document.getElementById('staffTable').getElementsByTagName('tbody')[0];
+        staffTableBody.innerHTML = ''; 
+        
+        staffs.forEach(staff => {
+          const row = staffTableBody.insertRow();
+          row.innerHTML = `
+            <td>${staff.id}</td>
+            <td>${staff.firstName} ${staff.lastName}</td>
+            <td>${staff.subject}</td>
+            <td>${staff.username}</td>
+            <td>${staff.ph}</td>
+            <td>${staff.email}</td>
+            <td>${staff.city}, ${staff.state}, ${staff.country}</td>
+            <td><button class="delete-btn" onclick="deleteStaff(${staff.id})">Delete</button></td>
+          `;
+        });
+        document.getElementById('staffDetailsSection').classList.remove('hidden');
+        document.getElementById('registrationForm').classList.add('hidden');
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    };
+    const deleteStaff = async (id) => {
+      try {
+        const response = await fetch(`http://localhost:8766/api/staffs/${id}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          alert('Staff deleted successfully');
+          showStaffDetails();
+        } else {
+          alert('Failed to delete staff');
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    };
+
+    const goBack = () => {
+      document.getElementById('staffDetailsSection').classList.add('hidden');
+      document.getElementById('registrationForm').classList.remove('hidden');
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Standard Name: <input type="text" id="taskInput">
+    <button onclick="addStandard()">Add Standard</button>
+    <ol id="taskContainer"></ol>
+</body>
+<script>
+    let taskList = [];
+    function addStandard() {
+        const taskInput = document.getElementById("taskInput");
+        const taskContainer = document.getElementById("taskContainer");
+        const newTask = taskInput.value;
+        if (newTask !== "") {
+            taskList.push(newTask);
+            taskInput.value = ""; 
+            renderTasks(); 
+        }
+    } 
+    function renderTasks() {
+        const taskContainer = document.getElementById("taskContainer");
+        taskContainer.innerHTML = ""; 
+
+        taskList.forEach((task, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <span>${task}</span>
+                <button onclick="deleteTask(${index})">Delete</button>
+            `;
+            taskContainer.appendChild(li);
+        });
+    }
+    function deleteTask(index) {
+        taskList.splice(index, 1); 
+        renderTasks();
+    }
+</script>
+</html>

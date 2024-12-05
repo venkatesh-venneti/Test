@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .date-header {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+        }
+
+        #student-form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        #student-form input {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 60%;
+            box-sizing: border-box;
+        }
+
+        #student-form button {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #student-form button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        table td button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .present {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .absent {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .back-button {
+            background-color: #f44336;
+            margin-top: 20px;
+            padding: 12px 20px;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: #d32f2f;
+        }
+
+        @media screen and (max-width: 600px) {
+            #student-form input {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Attendance System</h1>
+
+        <div class="date-header">
+            <span id="current-date"></span>
+        </div>
+
+        <div class="form-container">
+            <h2>Add Student</h2>
+            <form id="student-form">
+                <input type="text" id="name" placeholder="Enter Student Name" required>
+                <button type="submit">Add Student</button>
+            </form>
+        </div>
+
+        <div class="attendance-container">
+            <h2>Attendance List</h2>
+            <table id="attendance-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Student Name</th>
+                        <th>Status</th>
+                        <th>Mark Present</th>
+                        <th>Mark Absent</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <a href="studentAttendenceSystem.html" class="back-button">Back</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const studentForm = document.getElementById("student-form");
+            const attendanceTable = document.getElementById("attendance-table").getElementsByTagName("tbody")[0];
+            const currentDateElement = document.getElementById("current-date");
+
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString();
+            currentDateElement.textContent = `Date: ${formattedDate}`;
+
+            studentForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const studentName = document.getElementById("name").value.trim();
+                if (studentName) {
+                    addStudentToTable(studentName, formattedDate);
+                    studentForm.reset();
+                } else {
+                    alert("Please enter a student name!");
+                }
+            });
+
+            function addStudentToTable(name, date) {
+                const row = attendanceTable.insertRow();
+
+                const dateCell = row.insertCell(0);
+                dateCell.textContent = date;
+
+                const nameCell = row.insertCell(1);
+                nameCell.textContent = name;
+
+                const statusCell = row.insertCell(2);
+                statusCell.textContent = "Not Marked";
+
+                const presentCell = row.insertCell(3);
+                const presentButton = document.createElement("button");
+                presentButton.textContent = "Present";
+                presentButton.classList.add("present");
+                presentButton.addEventListener("click", () => {
+                    statusCell.textContent = "Present";
+                });
+                presentCell.appendChild(presentButton);
+
+                const absentCell = row.insertCell(4);
+                const absentButton = document.createElement("button");
+                absentButton.textContent = "Absent";
+                absentButton.classList.add("absent");
+                absentButton.addEventListener("click", () => {
+                    statusCell.textContent = "Absent";
+                });
+                absentCell.appendChild(absentButton);
+            }
+        });
+    </script>
+</body>
+</html>

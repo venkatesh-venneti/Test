@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Students Information</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    table th {
+      background-color: #f4f4f4;
+    }
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    .back-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #42586e;
+      color: white;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Students Information</h1>
+  <table id="studentsTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Branch</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Location</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <a href="adminmenu.html" class="back-btn">Back to Portal</a>
+  <script>
+    
+    const loadStudents = () => {
+      const students = JSON.parse(localStorage.getItem('students')) || [];
+      const tableBody = document.querySelector('#studentsTable tbody');
+      tableBody.innerHTML = ''; 
+
+      students.forEach((student, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${student.id}</td>
+          <td>${student.firstName} ${student.lastName}</td>
+          <td>${student.branch}</td>
+          <td>${student.username}</td>
+          <td>${student.password}</td>
+          <td>${student.ph}</td>
+          <td>${student.email}</td>
+          <td>${student.city}, ${student.state}, ${student.country}</td>
+          <td><button class="delete-btn" onclick="deleteStudent(${index})">Delete</button></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    };
+
+   
+    const deleteStudent = (index) => {
+      let students = JSON.parse(localStorage.getItem('students')) || [];
+      students.splice(index, 1); 
+      localStorage.setItem('students', JSON.stringify(students)); 
+      loadStudents(); 
+    };
+    
+    window.onload = loadStudents;
+  </script>
+</body>
+</html>

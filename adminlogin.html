@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login Panel</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+        }
+        .login-container h1 {
+            margin-bottom: 20px;
+            color: #333333;
+            font-size: 24px;
+        }
+        .login-container input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        .login-container input:focus {
+            border-color: #4caf50;
+            outline: none;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+        }
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .login-container button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        .login-container button:active {
+            transform: scale(1);
+        }
+        .login-container a {
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .login-container a button {
+            background: #007bff;
+        }
+        .login-container a button:hover {
+            background: #0056b3;
+        }
+        .login-container a button:active {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Admin Login Panel</h1>
+        <input id="name" type="text" placeholder="User Name"><br>
+        <input id="pass" type="password" placeholder="Password"><br>
+        <button onclick="login()">Login</button>
+        <a href="studentAttendenceSystem.html"><button>Go to Home</button></a>
+    </div>
+</body>
+<script>
+    function login() {
+        let name = document.getElementById("name").value;
+        let pass = document.getElementById("pass").value;
+        // Uncomment below if you want to validate credentials
+        // if (name === "venkatesh" && pass === "pandu143") {
+            window.location.href = "adminmenu.html";
+        // } else {
+        //     alert("Incorrect username or password");
+        // }
+    }
+</script>
+</html>
